@@ -91,7 +91,8 @@ module.exports = {
             [Op.gt]: req.params.id
           }
         },
-        raw: true
+        raw: true,
+        limit:9,
       })
       .then(v => {
         res.send(v);
