@@ -29,5 +29,8 @@ router.get("/ringtone/popular/category/:id", (req, res) =>
 router.get("/notificationringtone/:id", (req, res) =>
   notringtone.getnotringtone(req, res)
 );
+router.get("/get-popular-catagories", (req, res) => {
+  wallpaper.getPopularCatagories(req, res);
+});
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const wallpaper = require("../models/wallpaper");
 const nwr = require("../models/nwr");
 const pwr = require("../models/pwr");
+const PopularCatagories = require("../models/popularCatagories");
 const Op = require("sequelize").Op;
 
 module.exports = {
@@ -15,11 +16,11 @@ module.exports = {
           Downloads: req.body.download,
           createdBy: req.body.createdby,
           updatedBy: req.body.updatedby,
-          Status: req.body.status
+          Status: req.body.status,
         },
         { raw: true }
       )
-      .then(p => {
+      .then((p) => {
         console.log(p.id);
         nwr
           .create(
@@ -28,11 +29,11 @@ module.exports = {
               updatedBy: req.body.updatedby,
               Status: req.body.status,
               CatID: req.body.normcategory,
-              SID: p.id
+              SID: p.id,
             },
             { raw: true }
           )
-          .then(q => {
+          .then((q) => {
             console.log(q);
             if (req.body.ispopular) {
               pwr
@@ -42,11 +43,11 @@ module.exports = {
                     NWRID: q.id,
                     createdBy: req.body.createdby,
                     updatedBy: req.body.updatedby,
-                    Status: req.body.status
+                    Status: req.body.status,
                   },
                   { raw: true }
                 )
-                .then(r => {
+                .then((r) => {
                   console.log(r);
                   res.send(r);
                 });
@@ -64,38 +65,44 @@ module.exports = {
         where: {
           CatID: req.params.cid,
           id: {
-            [Op.gt]: req.params.id
-          }
+            [Op.gt]: req.params.id,
+          },
         },
-        raw: true
+        raw: true,
       })
-      .then(u => {
-        console.log(u.map(a => a.id));
+      .then((u) => {
+        console.log(u.map((a) => a.id));
         wallpaper
           .findAll({
             where: {
-              id: u.map(a => a.id)
+              id: u.map((a) => a.id),
             },
-            raw: true
+            raw: true,
           })
-          .then(s => {
+          .then((s) => {
             res.send(s);
           });
       });
   },
   getpopwallpaper: (req, res) => {
-    pwr.findAll({
+    pwr
+      .findAll({
         where: {
           CatID: req.params.cid,
           id: {
-            [Op.gt]: req.params.id
-          }
+            [Op.gt]: req.params.id,
+          },
         },
         raw: true,
-        limit:9,
+        limit: 9,
       })
-      .then(v => {
+      .then((v) => {
         res.send(v);
       });
-  }
+  },
+  getPopularCatagories: (req, res) => {
+    PopularCatagories.findAll({ raw: true }).then((u) => {
+      res.send(u);
+    });
+  },
 };
