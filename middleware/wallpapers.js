@@ -60,7 +60,7 @@ module.exports = {
     console.log(req.params);
     nwr
       .findAll({
-        limit: 15,
+        limit: 9,
         where: {
           CatID: req.params.cid,
           id: {
@@ -84,8 +84,7 @@ module.exports = {
       });
   },
   getpopwallpaper: (req, res) => {
-    pwr
-      .findAll({
+    pwr.findAll({
         where: {
           CatID: req.params.cid,
           id: {
@@ -95,28 +94,7 @@ module.exports = {
         raw: true
       })
       .then(v => {
-        console.log(v.map(a => a.NWRID));
-        nwr
-          .findAll({
-            where: {
-              id: v.map(a => a.NWRID)
-            },
-            raw: true
-          })
-          .then(w => {
-            console.log(w.map(b => b.SID));
-            wallpaper
-              .findAll({
-                where: {
-                  id: w.map(b => b.SID)
-                },
-                raw: true
-              })
-              .then(x => {
-                console.log(x);
-                res.send(x);
-              });
-          });
+        res.send(v);
       });
   }
 };

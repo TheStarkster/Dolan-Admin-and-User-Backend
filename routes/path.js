@@ -14,10 +14,10 @@ router.post("/ringtone/create", (req, res) =>
 router.post("/notringtone/create", (req, res) =>
   notringtone.createnoteringtone(req, res)
 );
-router.get("/wallpaper/normal/category/:cid/:id", (req, res) =>
+router.get("/wallpaper/normal-category/:cid/:id", (req, res) =>
   wallpaper.getwallpaper(req, res)
 );
-router.get("/wallpaper/popular/category/:cid/:id", (req, res) =>
+router.get("/wallpaper/popular-category/:cid/:id", (req, res) =>
   wallpaper.getpopwallpaper(req, res)
 );
 router.get("/ringtone/normal/category/:id", (req, res) =>
