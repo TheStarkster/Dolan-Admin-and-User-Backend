@@ -33,4 +33,9 @@ router.get("/get-popular-catagories", (req, res) => {
   wallpaper.getPopularCatagories(req, res);
 });
 
+//popular api...
+router.get("/get-popular-wallpapers/:id", (req, res) => {
+  wallpaper.getPopularWallpapers(req, res);
+});
+
 module.exports = router;

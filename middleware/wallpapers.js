@@ -105,4 +105,22 @@ module.exports = {
       res.send(u);
     });
   },
+  getPopularWallpapers: (req, res) => {
+    wallpaper
+      .findAll({
+        where: {
+          Downloads: {
+            [Op.gt]: 1000,
+          },
+          id: {
+            [Op.gt]: req.params.id,
+          },
+        },
+        limit: 6,
+      })
+      .then((u) => {
+        res.setHeader("Cache-Control", "public, max-age=60");
+        res.send(u);
+      });
+  },
 };
