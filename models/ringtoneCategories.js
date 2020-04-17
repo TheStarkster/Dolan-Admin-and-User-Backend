@@ -1,6 +1,6 @@
 const sequelize = require("sequelize");
 const DB = require("../config/db");
-const PopularCatagories = DB.define("popularwallcategories", {
+const ringtoneCategory = DB.define("normrtcategories", {
   Name: {
     type: sequelize.STRING,
   },
@@ -8,5 +8,4 @@ const PopularCatagories = DB.define("popularwallcategories", {
     type: sequelize.STRING,
   },
 });
-
-module.exports = PopularCatagories;
+module.exports = ringtoneCategory;

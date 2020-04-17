@@ -2,66 +2,76 @@ const wallpaper = require("../models/wallpaper");
 const nwr = require("../models/nwr");
 const pwr = require("../models/pwr");
 const PopularCatagories = require("../models/popularCatagories");
+const WallpaperCatagories = require("../models/wallpaperCategory");
+const wallpaperColorReferences = require("../models/wallColorReferences");
+const wallpaperColorCategories = require("../models/wallpaperColorCategory");
 const Op = require("sequelize").Op;
 
 module.exports = {
   createwallpaper: (req, res) => {
-    console.log(req.body);
+    const file = req.files.file;
+    file.mv(`${__dirname}/../wallpapers/${file.name}`, (err) => {});
+    const thumbnail = req.files.thumbnail;
+    thumbnail.mv(`${__dirname}/../thumbnail/${thumbnail.name}`, (err) => {});
     wallpaper
-      .create(
-        {
-          Name: req.body.name,
-          Path: req.body.Path,
-          Author: req.body.Author,
-          Downloads: req.body.download,
-          createdBy: req.body.createdby,
-          updatedBy: req.body.updatedby,
-          Status: req.body.status,
-        },
-        { raw: true }
-      )
-      .then((p) => {
-        console.log(p.id);
+      .create({
+        Name: req.body.name,
+        Author: req.body.author,
+        Downloads: req.body.download,
+        Path: "http://localhost:5000/wallpapers/" + file.name,
+        thumbnail: "http://localhost:5000/thumbnail/" + thumbnail.name,
+      })
+      .then((wallRes) => {
         nwr
-          .create(
-            {
-              createdBy: req.body.createdBy,
-              updatedBy: req.body.updatedby,
-              Status: req.body.status,
-              CatID: req.body.normcategory,
-              SID: p.id,
-            },
-            { raw: true }
-          )
-          .then((q) => {
-            console.log(q);
-            if (req.body.ispopular) {
+          .create({
+            CatID: req.body.normacategory,
+            SID: wallRes.id,
+          })
+          .then((nwrRes) => {
+            if (req.body.relatedToColor == "true") {
+              wallpaperColorReferences.create({
+                CatID: req.body.colorID,
+                SID: nwrRes.id,
+              });
+            }
+            if (req.body.ispopular == "true") {
               pwr
-                .create(
-                  {
-                    CatID: req.body.popcatid,
-                    NWRID: q.id,
-                    createdBy: req.body.createdby,
-                    updatedBy: req.body.updatedby,
-                    Status: req.body.status,
-                  },
-                  { raw: true }
-                )
-                .then((r) => {
-                  console.log(r);
-                  res.send(r);
+                .create({
+                  CatID: req.body.popcatid,
+                  NWRID: nwrRes.id,
+                })
+                .then((u) => {
+                  res.send(u);
                 });
             } else {
-              res.send(q);
+              res.send(nwrRes);
             }
           });
       });
   },
+  getColorCategories: (req, res) => {
+    wallpaperColorCategories.findAll().then((u) => {
+      res.send(u);
+    });
+  },
+  createColorCategory: (req, res) => {
+    const file = req.files.file;
+    file.mv(`${__dirname}/../wallpaperColorCategory/${file.name}`, (err) => {
+      console.log(err);
+    });
+    wallpaperColorCategories
+      .create({
+        Name: req.body.name,
+        background: "http://localhost:5000/wallpaperColorCategory/" + file.name,
+      })
+      .then((u) => {
+        res.send(u);
+      });
+  },
   getwallpaper: (req, res) => {
-    console.log(req.params);
     nwr
       .findAll({
-        limit: 9,
+        limit: 6,
         where: {
           CatID: req.params.cid,
           id: {
@@ -105,6 +115,11 @@ module.exports = {
       res.send(u);
     });
   },
+  getCatagories: (req, res) => {
+    WallpaperCatagories.findAll({ raw: true }).then((u) => {
+      res.send(u);
+    });
+  },
   getPopularWallpapers: (req, res) => {
     wallpaper
       .findAll({
@@ -119,8 +134,32 @@ module.exports = {
         limit: 6,
       })
       .then((u) => {
-        res.setHeader("Cache-Control", "public, max-age=60");
+        res.setHeader("Cache-Control", "public, max-age=194573");
         res.send(u);
       });
+  },
+  createCategory: (req, res) => {
+    const file = req.files.file;
+    file.mv(`${__dirname}/../wallpaperCategory/${file.name}`, (err) => {
+      console.log(err);
+    });
+    WallpaperCatagories.create({
+      Name: req.body.name,
+      background: "http://localhost:5000/wallpaperCategory/" + file.name,
+    }).then((u) => {
+      res.send(u);
+    });
+  },
+  createPopularCategory: (req, res) => {
+    const file = req.files.file;
+    file.mv(`${__dirname}/../popularWallpaperCategory/${file.name}`, (err) => {
+      console.log(err);
+    });
+    PopularCatagories.create({
+      Name: req.body.name,
+      background: "http://localhost:5000/popularWallpaperCategory/" + file.name,
+    }).then((u) => {
+      res.send(u);
+    });
   },
 };

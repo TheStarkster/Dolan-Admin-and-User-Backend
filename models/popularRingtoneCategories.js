@@ -1,6 +1,6 @@
 const sequelize = require("sequelize");
 const DB = require("../config/db");
-const PopularCatagories = DB.define("popularwallcategories", {
+const PopularRTCatagories = DB.define("poprtcategories", {
   Name: {
     type: sequelize.STRING,
   },
@@ -9,4 +9,4 @@ const PopularCatagories = DB.define("popularwallcategories", {
   },
 });
 
-module.exports = PopularCatagories;
+module.exports = PopularRTCatagories;
