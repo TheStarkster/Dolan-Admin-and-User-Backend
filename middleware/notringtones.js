@@ -3,6 +3,7 @@ const notRingtoneReference = require("../models/notRingtoneReference");
 const popNotRingtoneReference = require("../models/popNotRingtoneReference");
 const notringtoneCategories = require("../models/notificationRingtoneCategory");
 const pNRTcategories = require("../models/popNotRingtoneCategories");
+const Op = require("sequelize").Op;
 module.exports = {
   createnoteringtone: (req, res) => {
     const file = req.files.file;
@@ -38,15 +39,23 @@ module.exports = {
   },
   getnotringtone: (req, res) => {
     console.log(req.body);
-    notringtone
+    notRingtoneReference
       .findAll({
+        limit: 12,
         where: {
-          id: req.params.id,
+          CatID: req.params.cid,
         },
-        raw: true,
       })
-      .then((d) => {
-        res.send(d);
+      .then((nRes) => {
+        notringtone
+          .findAll({
+            where: {
+              id: nRes.map((a) => a.SID),
+            },
+          })
+          .then((u) => {
+            res.send(u);
+          });
       });
   },
   getCategory: (req, res) => {
@@ -85,6 +94,26 @@ module.exports = {
       })
       .then((u) => {
         res.send(u);
+      });
+  },
+
+  getPopNotringtone: (req, res) => {
+    popNotRingtoneReference
+      .findAll({
+        limit: 12,
+        where: {
+          CatID: req.params.cid,
+          id: {
+            [Op.gt]: req.params.id,
+          },
+        },
+      })
+      .then((pRes) => {
+        notRingtoneReference.findAll({
+          where: {
+            id: pRes.map((a) => a.SID),
+          },
+        });
       });
   },
 };

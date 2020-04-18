@@ -68,6 +68,26 @@ module.exports = {
         res.send(u);
       });
   },
+  getColoredWallpaper: (req, res) => {
+    wallpaperColorReferences
+      .findAll({
+        limit: 6,
+        where: {
+          CatID: req.params.cid,
+        },
+      })
+      .then((colorRes) => {
+        wallpaper
+          .findAll({
+            where: {
+              id: colorRes.map((a) => a.SID),
+            },
+          })
+          .then((sendoo) => {
+            res.send(sendoo);
+          });
+      });
+  },
   getwallpaper: (req, res) => {
     nwr
       .findAll({
@@ -81,11 +101,10 @@ module.exports = {
         raw: true,
       })
       .then((u) => {
-        console.log(u.map((a) => a.id));
         wallpaper
           .findAll({
             where: {
-              id: u.map((a) => a.id),
+              id: u.map((a) => a.SID),
             },
             raw: true,
           })
@@ -94,7 +113,7 @@ module.exports = {
           });
       });
   },
-  getpopwallpaper: (req, res) => {
+  getPopSearchedWallpaper: (req, res) => {
     pwr
       .findAll({
         where: {
@@ -106,8 +125,22 @@ module.exports = {
         raw: true,
         limit: 9,
       })
-      .then((v) => {
-        res.send(v);
+      .then((popwallRes) => {
+        nwr
+          .findAll({
+            where: {
+              id: popwallRes.map((a) => a.NWRID),
+            },
+          })
+          .then((u) => {
+            wallpaper
+              .findAll({
+                id: u.map((a) => a.SID),
+              })
+              .then((sendoo) => {
+                res.send(sendoo);
+              });
+          });
       });
   },
   getPopularCatagories: (req, res) => {

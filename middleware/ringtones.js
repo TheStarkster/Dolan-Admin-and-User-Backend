@@ -1,6 +1,7 @@
 const ringtone = require("../models/ringtone");
 const nrtr = require("../models/nrtr");
 const prtr = require("../models/prtr");
+const Op = require("sequelize").Op;
 const ringtoneCategory = require("../models/ringtoneCategories");
 const popRingtoneCategory = require("../models/popularRingtoneCategories");
 
@@ -75,35 +76,38 @@ module.exports = {
         res.send(u);
       });
   },
-  getringtones: (req, res) => {
-    console.log(req.body);
+  getNormRingtones: (req, res) => {
     nrtr
       .findAll({
+        limit: 6,
         where: {
-          id: req.params.id,
+          CatID: req.params.cid,
         },
-        raw: true,
+        id: {
+          [Op.gt]: req.params.id,
+        },
       })
-      .then((y) => {
-        console.log(y);
+      .then((nrtrRes) => {
         ringtone
           .findAll({
             where: {
-              id: y.map((a) => a.SID),
+              id: nrtrRes.map((a) => a.SID),
             },
-            raw: true,
           })
-          .then((z) => {
-            res.send(z);
+          .then((u) => {
+            res.send(u);
           });
       });
   },
-  getpopringtones: (req, res) => {
+  getPopSearchedRingtones: (req, res) => {
     console.log(req.body);
     prtr
       .findAll({
         where: {
           id: req.params.id,
+        },
+        id: {
+          [Op.gt]: req.params.id,
         },
         raw: true,
       })
@@ -129,6 +133,20 @@ module.exports = {
                 res.send(c);
               });
           });
+      });
+  },
+  getPopRingtones: (req, res) => {
+    ringtone
+      .findAll({
+        limit: 12,
+        where: {
+          Downloads: {
+            [Op.gt]: req.params.id,
+          },
+        },
+      })
+      .then((u) => {
+        res.send(u);
       });
   },
 };

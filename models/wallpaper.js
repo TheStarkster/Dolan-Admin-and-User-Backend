@@ -7,6 +7,9 @@ const wallpaper = DB.define("wallsources", {
   Path: {
     type: sequelize.STRING,
   },
+  thumbnail: {
+    type: sequelize.STRING,
+  },
   Author: {
     type: sequelize.STRING,
   },
