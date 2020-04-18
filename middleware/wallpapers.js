@@ -18,8 +18,8 @@ module.exports = {
         Name: req.body.name,
         Author: req.body.author,
         Downloads: req.body.download,
-        Path: "http://localhost:5000/wallpapers/" + file.name,
-        thumbnail: "http://localhost:5000/thumbnail/" + thumbnail.name,
+        Path: "https://gmai007.herokuapp.com/wallpapers/" + file.name,
+        thumbnail: "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name,
       })
       .then((wallRes) => {
         nwr
@@ -62,7 +62,8 @@ module.exports = {
     wallpaperColorCategories
       .create({
         Name: req.body.name,
-        background: "http://localhost:5000/wallpaperColorCategory/" + file.name,
+        background:
+          "https://gmai007.herokuapp.com/wallpaperColorCategory/" + file.name,
       })
       .then((u) => {
         res.send(u);
@@ -178,7 +179,8 @@ module.exports = {
     });
     WallpaperCatagories.create({
       Name: req.body.name,
-      background: "http://localhost:5000/wallpaperCategory/" + file.name,
+      background:
+        "https://gmai007.herokuapp.com/wallpaperCategory/" + file.name,
     }).then((u) => {
       res.send(u);
     });
@@ -190,7 +192,8 @@ module.exports = {
     });
     PopularCatagories.create({
       Name: req.body.name,
-      background: "http://localhost:5000/popularWallpaperCategory/" + file.name,
+      background:
+        "https://gmai007.herokuapp.com/popularWallpaperCategory/" + file.name,
     }).then((u) => {
       res.send(u);
     });

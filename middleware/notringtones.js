@@ -13,7 +13,7 @@ module.exports = {
         Name: req.body.name,
         Author: req.body.author,
         Downloads: req.body.download,
-        Path: "http://localhost:5000/notringtone/" + file.name,
+        Path: "https://gmai007.herokuapp.com/notringtone/" + file.name,
       })
       .then((RingRes) => {
         notRingtoneReference
@@ -74,7 +74,8 @@ module.exports = {
     notringtoneCategories
       .create({
         Name: req.body.name,
-        background: "http://localhost:5000/notRingtonecategories/" + file.name,
+        background:
+          "https://gmai007.herokuapp.com/notRingtonecategories/" + file.name,
       })
       .then((u) => {
         res.send(u);
@@ -90,7 +91,7 @@ module.exports = {
       .create({
         Name: req.body.name,
         background:
-          "http://localhost:5000/popNotRingtoneCategories/" + file.name,
+          "https://gmai007.herokuapp.com/popNotRingtoneCategories/" + file.name,
       })
       .then((u) => {
         res.send(u);

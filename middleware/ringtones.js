@@ -14,7 +14,7 @@ module.exports = {
         Name: req.body.name,
         Author: req.body.author,
         Downloads: req.body.download,
-        Path: "http://localhost:5000/ringtones/" + file.name,
+        Path: "https://gmai007.herokuapp.com/ringtones/" + file.name,
       })
       .then((RingRes) => {
         nrtr
@@ -46,7 +46,7 @@ module.exports = {
     ringtoneCategory
       .create({
         Name: req.body.name,
-        background: "http://localhost:5000/ringtoneCategories/" + file.name,
+        background: "https://gmai007.herokuapp.com/ringtoneCategories/" + file.name,
       })
       .then((u) => {
         res.send(u);
@@ -70,7 +70,7 @@ module.exports = {
       .create({
         Name: req.body.name,
         background:
-          "http://localhost:5000/popularRingtoneCategories/" + file.name,
+          "https://gmai007.herokuapp.com/popularRingtoneCategories/" + file.name,
       })
       .then((u) => {
         res.send(u);
