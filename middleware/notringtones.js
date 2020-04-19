@@ -54,7 +54,10 @@ module.exports = {
             },
           })
           .then((u) => {
-            res.send(u);
+            res.send({
+              message: u,
+              lastId: nRes[nRes.length - 1],
+            });
           });
       });
   },
@@ -110,11 +113,18 @@ module.exports = {
         },
       })
       .then((pRes) => {
-        notRingtoneReference.findAll({
-          where: {
-            id: pRes.map((a) => a.SID),
-          },
-        });
+        notRingtoneReference
+          .findAll({
+            where: {
+              id: pRes.map((a) => a.SID),
+            },
+          })
+          .then((u) => {
+            res.send({
+              data: u,
+              lastId: pRes[pRes.length - 1],
+            });
+          });
       });
   },
 };

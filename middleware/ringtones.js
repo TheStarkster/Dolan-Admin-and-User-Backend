@@ -46,7 +46,8 @@ module.exports = {
     ringtoneCategory
       .create({
         Name: req.body.name,
-        background: "https://gmai007.herokuapp.com/ringtoneCategories/" + file.name,
+        background:
+          "https://gmai007.herokuapp.com/ringtoneCategories/" + file.name,
       })
       .then((u) => {
         res.send(u);
@@ -70,7 +71,8 @@ module.exports = {
       .create({
         Name: req.body.name,
         background:
-          "https://gmai007.herokuapp.com/popularRingtoneCategories/" + file.name,
+          "https://gmai007.herokuapp.com/popularRingtoneCategories/" +
+          file.name,
       })
       .then((u) => {
         res.send(u);
@@ -95,7 +97,10 @@ module.exports = {
             },
           })
           .then((u) => {
-            res.send(u);
+            res.send({
+              data: u,
+              lastId: nrtrRes[nrtrRes.length - 1],
+            });
           });
       });
   },
@@ -130,7 +135,10 @@ module.exports = {
                 raw: true,
               })
               .then((c) => {
-                res.send(c);
+                res.send({
+                  data: c,
+                  lastId: b[b.length - 1],
+                });
               });
           });
       });

@@ -85,7 +85,10 @@ module.exports = {
             },
           })
           .then((sendoo) => {
-            res.send(sendoo);
+            res.send({
+              data: sendoo,
+              lastId: colorRes[colorRes.length - 1],
+            });
           });
       });
   },
@@ -110,7 +113,10 @@ module.exports = {
             raw: true,
           })
           .then((s) => {
-            res.send(s);
+            res.send({
+              data: s,
+              lastId: u[u.length - 1],
+            });
           });
       });
   },
@@ -139,7 +145,10 @@ module.exports = {
                 id: u.map((a) => a.SID),
               })
               .then((sendoo) => {
-                res.send(sendoo);
+                res.send({
+                  data: sendoo,
+                  lastId: u[u.length - 1],
+                });
               });
           });
       });
