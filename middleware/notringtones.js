@@ -6,6 +6,7 @@ const pNRTcategories = require("../models/popNotRingtoneCategories");
 const Op = require("sequelize").Op;
 module.exports = {
   createnoteringtone: (req, res) => {
+    const file;
     if (req.body.haveFile == "true") {
       const file = req.files.file;
       file.mv(`${__dirname}/../notringtone/${file.name}`, (err) => {});
@@ -77,6 +78,7 @@ module.exports = {
     });
   },
   createCategory: (req, res) => {
+    const file;
     if (req.body.haveFile == "true") {
       const file = req.files.file;
       file.mv(
@@ -97,6 +99,7 @@ module.exports = {
       });
   },
   createPopularCategory: (req, res) => {
+    const file;
     if (req.body.haveFile == "true") {
       const file = req.files.file;
       file.mv(
