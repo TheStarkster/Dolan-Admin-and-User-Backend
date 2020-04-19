@@ -12,10 +12,11 @@ module.exports = {
     if (req.body.haveFile == "true") {
       const file = req.files.file;
       file.mv(`${__dirname}/../wallpapers/${file.name}`, (err) => {});
+    }
+    if (req.body.haveThumbnail == "true") {
       const thumbnail = req.files.thumbnail;
       thumbnail.mv(`${__dirname}/../thumbnail/${thumbnail.name}`, (err) => {});
     }
-
     wallpaper
       .create({
         Name: req.body.name,
@@ -25,7 +26,9 @@ module.exports = {
           req.body.haveFile == "true"
             ? "https://gmai007.herokuapp.com/wallpapers/" + file.name
             : req.body.fileUrl,
-        thumbnail: "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name,
+        thumbnail: req.body.haveThumbnail
+          ? "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name
+          : req.body.thumbnailUrl,
       })
       .then((wallRes) => {
         nwr
