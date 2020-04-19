@@ -27,7 +27,7 @@ module.exports = {
           req.body.haveFile == "true"
             ? "https://gmai007.herokuapp.com/wallpapers/" + file.name
             : req.body.fileUrl,
-        thumbnail: req.body.haveThumbnail
+        thumbnail: req.body.haveThumbnail == "true"
           ? "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name
           : req.body.thumbnailUrl,
       })
