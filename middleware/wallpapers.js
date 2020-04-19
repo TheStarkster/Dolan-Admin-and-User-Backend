@@ -9,7 +9,7 @@ const Op = require("sequelize").Op;
 
 module.exports = {
   createwallpaper: (req, res) => {
-    const file, thumbnail;
+    var file, thumbnail;
     if (req.body.haveFile == "true") {
       file = req.files.file;
       file.mv(`${__dirname}/../wallpapers/${file.name}`, (err) => {});
@@ -65,9 +65,8 @@ module.exports = {
     });
   },
   createColorCategory: (req, res) => {
-    const file;
+    var file;
     if (req.body.haveFile == "true") {
-      const file = req.files.file;
       file.mv(`${__dirname}/../wallpaperColorCategory/${file.name}`, (err) => {
         console.log(err);
       });
@@ -198,9 +197,8 @@ module.exports = {
       });
   },
   createCategory: (req, res) => {
-    const file;
+    var file;
     if (req.body.haveFile == "true") {
-      const file = req.files.file;
       file.mv(`${__dirname}/../wallpaperCategory/${file.name}`, (err) => {
         console.log(err);
       });
@@ -216,9 +214,8 @@ module.exports = {
     });
   },
   createPopularCategory: (req, res) => {
-    const file;
+    var file;
     if (req.body.haveFile == "true") {
-      const file = req.files.file;
       file.mv(
         `${__dirname}/../popularWallpaperCategory/${file.name}`,
         (err) => {

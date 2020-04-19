@@ -7,9 +7,8 @@ const popRingtoneCategory = require("../models/popularRingtoneCategories");
 
 module.exports = {
   createringtone: (req, res) => {
-    const file;
+    var file;
     if (req.body.haveFile == "true") {
-      const file = req.files.file;
       file.mv(`${__dirname}/../ringtones/${file.name}`, (err) => {});
     }
     ringtone
@@ -45,9 +44,8 @@ module.exports = {
       });
   },
   createCategory: (req, res) => {
-    const file;
+    var file;
     if (req.body.haveFile == "true") {
-      const file = req.files.file;
       file.mv(`${__dirname}/../ringtoneCategories/${file.name}`, (err) => {
         console.log(err);
       });
@@ -73,9 +71,8 @@ module.exports = {
     popRingtoneCategory.findAll().then((u) => res.send(u));
   },
   cratePopularCategories: (req, res) => {
-    const file;
+    var file;
     if (req.body.haveFile == "true") {
-      const file = req.files.file;
       file.mv(
         `${__dirname}/../popularRingtoneCategories/${file.name}`,
         (err) => {}
