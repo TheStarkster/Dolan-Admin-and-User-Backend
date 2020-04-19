@@ -7,14 +7,19 @@ const popRingtoneCategory = require("../models/popularRingtoneCategories");
 
 module.exports = {
   createringtone: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../ringtones/${file.name}`, (err) => {});
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(`${__dirname}/../ringtones/${file.name}`, (err) => {});
+    }
     ringtone
       .create({
         Name: req.body.name,
         Author: req.body.author,
         Downloads: req.body.download,
-        Path: "https://gmai007.herokuapp.com/ringtones/" + file.name,
+        Path:
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/ringtones/" + file.name
+            : req.body.fileUrl,
       })
       .then((RingRes) => {
         nrtr
@@ -39,15 +44,19 @@ module.exports = {
       });
   },
   createCategory: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../ringtoneCategories/${file.name}`, (err) => {
-      console.log(err);
-    });
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(`${__dirname}/../ringtoneCategories/${file.name}`, (err) => {
+        console.log(err);
+      });
+    }
     ringtoneCategory
       .create({
         Name: req.body.name,
         background:
-          "https://gmai007.herokuapp.com/ringtoneCategories/" + file.name,
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/ringtoneCategories/" + file.name
+            : req.body.fileUrl,
       })
       .then((u) => {
         res.send(u);
@@ -62,17 +71,21 @@ module.exports = {
     popRingtoneCategory.findAll().then((u) => res.send(u));
   },
   cratePopularCategories: (req, res) => {
-    const file = req.files.file;
-    file.mv(
-      `${__dirname}/../popularRingtoneCategories/${file.name}`,
-      (err) => {}
-    );
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(
+        `${__dirname}/../popularRingtoneCategories/${file.name}`,
+        (err) => {}
+      );
+    }
     popRingtoneCategory
       .create({
         Name: req.body.name,
         background:
-          "https://gmai007.herokuapp.com/popularRingtoneCategories/" +
-          file.name,
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/popularRingtoneCategories/" +
+              file.name
+            : req.body.fileUrl,
       })
       .then((u) => {
         res.send(u);

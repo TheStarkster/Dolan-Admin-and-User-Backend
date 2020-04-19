@@ -9,16 +9,22 @@ const Op = require("sequelize").Op;
 
 module.exports = {
   createwallpaper: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../wallpapers/${file.name}`, (err) => {});
-    const thumbnail = req.files.thumbnail;
-    thumbnail.mv(`${__dirname}/../thumbnail/${thumbnail.name}`, (err) => {});
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(`${__dirname}/../wallpapers/${file.name}`, (err) => {});
+      const thumbnail = req.files.thumbnail;
+      thumbnail.mv(`${__dirname}/../thumbnail/${thumbnail.name}`, (err) => {});
+    }
+
     wallpaper
       .create({
         Name: req.body.name,
         Author: req.body.author,
         Downloads: req.body.download,
-        Path: "https://gmai007.herokuapp.com/wallpapers/" + file.name,
+        Path:
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/wallpapers/" + file.name
+            : req.body.fileUrl,
         thumbnail: "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name,
       })
       .then((wallRes) => {
@@ -55,15 +61,20 @@ module.exports = {
     });
   },
   createColorCategory: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../wallpaperColorCategory/${file.name}`, (err) => {
-      console.log(err);
-    });
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(`${__dirname}/../wallpaperColorCategory/${file.name}`, (err) => {
+        console.log(err);
+      });
+    }
     wallpaperColorCategories
       .create({
         Name: req.body.name,
         background:
-          "https://gmai007.herokuapp.com/wallpaperColorCategory/" + file.name,
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/wallpaperColorCategory/" +
+              file.name
+            : req.body.fileUrl,
       })
       .then((u) => {
         res.send(u);
@@ -182,27 +193,39 @@ module.exports = {
       });
   },
   createCategory: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../wallpaperCategory/${file.name}`, (err) => {
-      console.log(err);
-    });
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(`${__dirname}/../wallpaperCategory/${file.name}`, (err) => {
+        console.log(err);
+      });
+    }
     WallpaperCatagories.create({
       Name: req.body.name,
       background:
-        "https://gmai007.herokuapp.com/wallpaperCategory/" + file.name,
+        req.body.haveFile == "true"
+          ? "https://gmai007.herokuapp.com/wallpaperCategory/" + file.name
+          : req.body.fileUrl,
     }).then((u) => {
       res.send(u);
     });
   },
   createPopularCategory: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../popularWallpaperCategory/${file.name}`, (err) => {
-      console.log(err);
-    });
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(
+        `${__dirname}/../popularWallpaperCategory/${file.name}`,
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
     PopularCatagories.create({
       Name: req.body.name,
       background:
-        "https://gmai007.herokuapp.com/popularWallpaperCategory/" + file.name,
+        req.body.haveFile == "true"
+          ? "https://gmai007.herokuapp.com/popularWallpaperCategory/" +
+            file.name
+          : req.body.fileUrl,
     }).then((u) => {
       res.send(u);
     });

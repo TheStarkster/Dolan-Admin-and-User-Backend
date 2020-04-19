@@ -6,14 +6,19 @@ const pNRTcategories = require("../models/popNotRingtoneCategories");
 const Op = require("sequelize").Op;
 module.exports = {
   createnoteringtone: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../notringtone/${file.name}`, (err) => {});
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(`${__dirname}/../notringtone/${file.name}`, (err) => {});
+    }
     notringtone
       .create({
         Name: req.body.name,
         Author: req.body.author,
         Downloads: req.body.download,
-        Path: "https://gmai007.herokuapp.com/notringtone/" + file.name,
+        Path:
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/notringtone/" + file.name
+            : req.body.fileUrl,
       })
       .then((RingRes) => {
         notRingtoneReference
@@ -72,29 +77,41 @@ module.exports = {
     });
   },
   createCategory: (req, res) => {
-    const file = req.files.file;
-    file.mv(`${__dirname}/../notRingtonecategories/${file.name}`, (err) => {});
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(
+        `${__dirname}/../notRingtonecategories/${file.name}`,
+        (err) => {}
+      );
+    }
     notringtoneCategories
       .create({
         Name: req.body.name,
         background:
-          "https://gmai007.herokuapp.com/notRingtonecategories/" + file.name,
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/notRingtonecategories/" + file.name
+            : req.body.fileUrl,
       })
       .then((u) => {
         res.send(u);
       });
   },
   createPopularCategory: (req, res) => {
-    const file = req.files.file;
-    file.mv(
-      `${__dirname}/../popNotRingtoneCategories/${file.name}`,
-      (err) => {}
-    );
+    if (req.body.haveFile == "true") {
+      const file = req.files.file;
+      file.mv(
+        `${__dirname}/../popNotRingtoneCategories/${file.name}`,
+        (err) => {}
+      );
+    }
     pNRTcategories
       .create({
         Name: req.body.name,
         background:
-          "https://gmai007.herokuapp.com/popNotRingtoneCategories/" + file.name,
+          req.body.haveFile == "true"
+            ? "https://gmai007.herokuapp.com/popNotRingtoneCategories/" +
+              file.name
+            : req.body.fileUrl,
       })
       .then((u) => {
         res.send(u);
