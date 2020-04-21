@@ -11,7 +11,7 @@ const nwr = DB.define('normalwallreferences',{
         type:sequelize.BOOLEAN
     },
     CatID:{
-        type:sequelize.INTEGER
+        type:sequelize.STRING
     },
     SID:{
         type:sequelize.INTEGER

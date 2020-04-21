@@ -34,7 +34,7 @@ module.exports = {
       .then((wallRes) => {
         nwr
           .create({
-            CatID: req.body.normacategory,
+            CatID: req.body.normcategory,
             SID: wallRes.id,
           })
           .then((nwrRes) => {
