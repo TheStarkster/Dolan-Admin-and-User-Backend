@@ -9,6 +9,7 @@ const Op = require("sequelize").Op;
 
 module.exports = {
   createwallpaper: (req, res) => {
+    console.log(req.body);
     var file, thumbnail;
     if (req.body.haveFile == "true") {
       file = req.files.file;
@@ -27,9 +28,10 @@ module.exports = {
           req.body.haveFile == "true"
             ? "https://gmai007.herokuapp.com/wallpapers/" + file.name
             : req.body.fileUrl,
-        thumbnail: req.body.haveThumbnail == "true"
-          ? "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name
-          : req.body.thumbnailUrl,
+        thumbnail:
+          req.body.haveThumbnail == "true"
+            ? "https://gmai007.herokuapp.com/thumbnail/" + thumbnail.name
+            : req.body.thumbnailUrl,
       })
       .then((wallRes) => {
         nwr
