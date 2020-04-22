@@ -40,7 +40,7 @@ module.exports = {
           .then((nwrRes) => {
             if (req.body.relatedToColor == "true") {
               wallpaperColorReferences.create({
-                CatID: req.body.colorID,
+                CatID: req.body.Colors,
                 SID: nwrRes.id,
               });
             }
